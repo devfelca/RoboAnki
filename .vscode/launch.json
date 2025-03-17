@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",  // Alterado de "python" para "debugpy"
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/venv/Lib/site-packages"
+            },
+            "justMyCode": true
+        }
+    ]
+}
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Executar script BAT",
+            "type": "shell",
+            "command": "${workspaceFolder}/nome_do_script.bat",
+            "problemMatcher": []
+        }
+    ]
+}
