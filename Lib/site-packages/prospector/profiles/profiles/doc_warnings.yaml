@@ -1,0 +1,4 @@
+allow-shorthand: false
+
+pydocstyle:
+  run: true

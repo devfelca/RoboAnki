@@ -1,0 +1,19 @@
+allow-shorthand: false
+
+ignore-patterns:
+  - ^docs?/
+
+pylint:
+  disable:
+    - empty-docstring
+    - missing-docstring
+    - missing-module-docstring
+    - missing-function-docstring
+    - missing-class-docstring
+
+frosted:
+  disable:
+    - E401
+
+pydocstyle:
+  run: false
