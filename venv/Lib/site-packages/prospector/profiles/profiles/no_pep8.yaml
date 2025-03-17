@@ -1,0 +1,20 @@
+allow-shorthand: false
+
+pylint:
+  disable:
+    - line-too-long
+    - too-many-lines
+    - trailing-whitespace
+    - missing-final-newline
+    - unnecessary-semicolon
+    - multiple-statements
+    - C0322
+    - C0323
+    - C0324
+
+pycodestyle:
+  run: false
+
+# TODO: remove this in prospector 2.0 - here for legacy backwards compat
+pep8:
+  run: false

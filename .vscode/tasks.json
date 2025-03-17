@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Executar script BAT",
+            "type": "shell",
+            "command": "${workspaceFolder}/nome_do_script.bat",
+            "problemMatcher": []
+        }
+    ]
+}
