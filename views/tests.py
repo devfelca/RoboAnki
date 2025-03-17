@@ -1,4 +1,4 @@
-from RoboAnki.scr.models.functions import ANKI, login
+from models.functions import ANKI
 
 
 
