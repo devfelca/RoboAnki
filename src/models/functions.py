@@ -4,11 +4,13 @@ import pandas as pd
 import time
 
 class ANKI:
-    def __init__(self, browser, usuario):
+    def __init__(self, browser, usuario, senha, data_locator):
         self.browser = browser
         self.url = "https://ankiweb.net/account/login"
         self.usuario = usuario
         self.senha = senha
+        self.data_locator = data_locator
+
 
     def login(self):
         # Abre a URL de login
@@ -20,7 +22,7 @@ class ANKI:
         # Localiza o campo de senha
         senha_input = self.browser.find_element(By.XPATH, "/html/body/div/main/form/div[2]/input")
         # Localiza o botão de login
-        login_button = driver.find_element(By.CSS_SELECTOR, "button.btn.btn-primary.btn-lg")
+        login_button = self.browser.find_element(By.XPATH, "/html/body/div/main/form/div[3]/button")
         
         # Preenche os campos e clica no botão de login
         email_input.send_keys(self.usuario)
@@ -31,7 +33,27 @@ class ANKI:
     
        self.browser.find_element(By.XPATH, "/html/body/div/nav/div/div[2]/ul[1]/li[2]/a").click()
        time.sleep(3)
+    
+    def reed_cards_sheets(self):
+        # Usa o data_locator já atribuído no __init__
+        if self.data_locator.endswith('.xlsx'):
+            df = pd.read_excel(self.data_locator)
+        elif self.data_locator.endswith('.csv'):
+            df = pd.read_csv(self.data_locator)
+        else:
+            raise ValueError("Formato de arquivo não suportado. Use .xlsx ou .csv.")
 
+        # Itera sobre as linhas da planilha e adiciona os cards
+        for index, row in df.iterrows():
+            front = row['Front']
+            back = row['Back']
+            tag = row['Tag']  # Certifique-se de que a coluna na planilha se chama 'Tag'
+            self.add_card()
+            time.sleep(2)
+            self.send_cards(front, back, tag)
+            print(f"Card adicionado: Front = {front}, Back = {back}, Tag = {tag}")
+            time.sleep(2)
+        
         # Aqui é os 3 campos mais importantes do card, frente, verso e tags nessa ordem
     def send_cards(self, front, back, tag):
         
@@ -45,30 +67,4 @@ class ANKI:
         
         add_button = self.browser.find_element(By.CSS_SELECTOR, "btn btn-primary btn-large mt-2")
         add_button.click
-
-
-    def reed_cards_sheets(self, arquivo_planilha):
-        """
-        Lê uma planilha e adiciona os cards no AnkiWeb.
-        :param arquivo_planilha: Caminho do arquivo da planilha (Excel ou CSV).
-        """
-        # Lê a planilha
-        if arquivo_planilha.endswith('.xlsx'):
-            df = pd.read_excel(arquivo_planilha)
-        elif arquivo_planilha.endswith('.csv'):
-            df = pd.read_csv(arquivo_planilha)
-        else:
-            raise ValueError("Formato de arquivo não suportado. Use .xlsx ou .csv.")
-
-        # Itera sobre as linhas da planilha e adiciona os cards
-        for index, row in df.iterrows():
-            front = row['Front']
-            back = row['Back']
-            tag = row['Tags']
-            self.add_card()
-            self.send_cards(front, back, tag)
-            print(f"Card adicionado: Front = {front}, Back = {back}, Tags = {tag}")
-    
-       
-
        
