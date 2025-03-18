@@ -1,4 +1,4 @@
-from models.functions import ANKI
+from src.models.functions import ANKI
 
 
 

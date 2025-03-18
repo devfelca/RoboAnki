@@ -8,7 +8,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/venv/Lib/site-packages"
+                "PYTHONPATH": "${workspaceFolder}/.venv/Lib/site-packages"
             },
             "justMyCode": true
         }
