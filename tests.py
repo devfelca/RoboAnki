@@ -1,38 +1,36 @@
+
 from selenium import webdriver
 from src.models.functions import ANKI
 import time
 
-# Cria o driver e define-o como variável global para que o modelo (que usa "driver")
-# possa encontrá-lo sem problemas
+
+# Instancia o driver (variável global)
 driver = webdriver.Chrome()
 
 def main():
-    # Defina as credenciais do usuário
     usuario = "dirt156@gmail.com"
     senha = "Mari745/*"
     data_locator = r"Data/cards.xlsx"
+    deck_name = "Língua Potuguesa - SUSEP"
     
-    # Instancia a classe ANKI conforme definida em src/models/functions.py
-    anki = ANKI(driver, usuario, senha, data_locator)
-    # Como o construtor da classe não recebe "senha", atribuimos manualmente
-    anki.senha = senha
-
+    # Instancia a classe ANKI com o caminho da planilha
+    anki = ANKI(driver, usuario, senha, data_locator, deck_name)
+    
     # Realiza o login
     anki.login()
-    time.sleep(5)  # Aguarda a conclusão do login
-    anki.reed_cards_sheets()
-    # clique no botão de card
-    anki.add_card()
-    time.sleep(3)
-
-    # import data from excel
-    anki.reed_cards_sheets()
     time.sleep(5)
+    
+    # Primeiro, lê a planilha e armazena os dados
+    anki.read_cards_sheet()
+    time.sleep(2)
 
-    anki.send_cards()
-    time.sleep(6)
-
-
+    anki.creat_deck()
+    time.sleep(100)
+    # Em seguida, envia os cards utilizando os dados armazenados
+    anki.send_all_cards()
+    
+    # Opcional: fecha o navegador ao final
+    # driver.quit()
 
 if __name__ == '__main__':
     main()
