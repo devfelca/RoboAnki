@@ -5,7 +5,7 @@ RoboAnki é um projeto de automação que utiliza o [Selenium](https://www.selen
 ---
 
 ## Estrutura do Projeto
-
+---
 RoboAnki/ 
 ├── .venv/ 
 ├── .vscode/ 
@@ -19,7 +19,7 @@ RoboAnki/
 │ ├── init.py 
 │ 
 │ └── functions.py ├── tests.py ├── README.md └── setup.bat
-
+---
 
 - **Data/**: Contém arquivos de dados (por exemplo, `cards.xlsx` com as colunas `Front`, `Back` e `Tag`).  
 - **src/models/**: Onde reside a lógica principal, como o arquivo `functions.py` com as classes e métodos para automação.  
