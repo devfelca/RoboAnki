@@ -1,5 +1,9 @@
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd
 import time
 
@@ -37,14 +41,37 @@ class ANKI:
         Após clicar no botão, o campo de input fica ativo automaticamente.
         """
         # Clica no botão que abre a criação de deck
-        create_deck_button = self.browser.find_element(By.XPATH, "/html/body/div/main/div[5]/div/button")
-        create_deck_button.click()
-        time.sleep(1)
-        # Usa o elemento ativo para enviar o nome do deck
-        active_input = self.browser.switch_to.active_element
-        active_input.send_keys(deck_name)
-        active_input.send_keys(Keys.RETURN)
+        self.browser.find_element(By.CSS_SELECTOR, "button.btn.btn-outline-secondary").click()
         time.sleep(3)
+        # Usa o elemento ativo para enviar o nome do deck
+        prompt = self.browser.switch_to.alert
+        # Envia o nome do deck para o prompt
+        prompt.send_keys(deck_name)
+        time.sleep(2)
+        # Clica em "OK" para confirmar
+        prompt.accept()
+        # chama o click deck
+        self.click_deck(deck_name)
+        time.sleep(3)
+
+    def click_deck(self, deck_name):
+        """Localiza a div correspondente ao deck pelo texto e clica no botão associado."""
+        # Aguarda até que a div com o nome do deck apareça no DOM
+        row = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.XPATH, f"//div[contains(@class, 'row light-bottom-border') and contains(., '{deck_name}')]")))
+        # Dentro dessa div, localiza o botão com as classes que você mencionou
+        button = row.find_element(By.XPATH, ".//button[contains(@class, 'btn btn-link pl-0')]")
+        # Se o botão estiver fora da tela, rola até ele
+        self.browser.execute_script("arguments[0].scrollIntoView(true);", button)
+        time.sleep(1)
+        # Opcional: aguarda até que o botão esteja clicável
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(button))
+        # Tenta clicar "normalmente"
+        try:
+            button.click()
+        except:
+            # Se der ElementNotInteractableException, força o clique via JS
+            self.browser.execute_script("arguments[0].click();", button)
+            time.sleep(3)  # Aguarda a página responder
         
     def add_card(self):
         # Clica no link "Add Card"
@@ -82,7 +109,7 @@ class ANKI:
         name_deck = input("Digite o nome do seu deck")
         #identifica o campo "Deck" que corresponde aos decks já criados
         self.browser.find_element(By.XPATH, "/html/body/div/nav/div/div[2]/ul[1]/li[2]/a").click()
-        deck_input.send_keys(name_deck)
+        self.browser.send_keys(name_deck)
 
     def read_cards_sheet(self):
         """
