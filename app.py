@@ -46,17 +46,17 @@ def main():
     
     # Opção 2: Adicionar Cards em um deck já criado
     elif selector == 2:
-        deck_name = input("Digite o nome do seu deck: ")
         anki.add_card()
         time.sleep(3)
+        deck_name = None
+        deck_name = input("Digite o nome do Deck para adionar os Cards: ")
         anki.select_deck(deck_name)
         print("Lendo os Cards da planilha...")
         anki.read_cards_sheet()
         time.sleep(3)
         anki.send_all_cards()
         time.sleep(3)
-        anki.add_button()
-        print("Cards sendo adicionados")
+        print("Cards Adicionados")
         time.sleep(6)
     
     # Opção 3: Criar um novo Deck e adicionar Cards
@@ -74,7 +74,6 @@ def main():
         time.sleep(3)
         anki.send_all_cards()
         time.sleep(3)
-        anki.add_button()
         print("Cards sendo adicionados")
         time.sleep(6)
     

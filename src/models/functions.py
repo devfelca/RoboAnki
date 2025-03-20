@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys 
 import pandas as pd
 import time
 
@@ -71,15 +72,17 @@ class ANKI:
         self.browser.find_element(By.XPATH, "/html/body/div/nav/div/div[2]/ul[1]/li[2]/a").click()
 
     def add_button(self):
-        #botão css dentro da página de afionar cards, usado após preencher os dados sobre os cards.
+        #botão css dentro da página de adionar cards, usado após preencher os dados sobre os cards.
         self.browser.find_element(By.CSS_SELECTOR, "button.btn.btn-primary.btn-large.mt-2").click()
 
     def select_deck(self, deck_name):
         #na aba de adionar card, a função serve para digitar o nome do deck
-        deck_input = self.browser.find_element(By.CSS_SELECTOR, "input.svelte-82qwg8").click()
-        deck_input.sendkeys(deck_name)
-
-
+        deck_input = self.browser.find_element(By.XPATH, "/html/body/div/main/div[2]/div/div/div[2]/input")
+        deck_input.click()
+        deck_input.send_keys(deck_name)
+        deck_input.send_keys(Keys.TAB)
+        body = self.browser.find_element(By.TAG_NAME, "body")
+        body.click()
 
     def send_cards(self, front, back, tag):
         """Localiza os campos de entrada para o card apenas usar caso o robô opere através do add_card pois essa
@@ -90,23 +93,15 @@ class ANKI:
         tag_input = self.browser.find_element(By.XPATH, "/html/body/div/main/form/div[3]/div/input")
 
         # Preenche os campos com os dados fornecidos
+        front_input.clear()
         front_input.send_keys(front)
+        back_input.clear()
         back_input.send_keys(back)
+        tag_input.clear()
         tag_input.send_keys(tag)
         
         # Chama o botão na na aba de adionar cards
         self.add_button()
-
-    def select_deck(self, name_deck):
-        """
-        Digita o nome do deck caso já criado, exemplo: anteriormente adionei através do send_cards
-        e quero adicionar outros cards referentes, então ele tem que pegar o nome do card armazenado
-        por uma variavél
-        """
-        name_deck = input("Digite o nome do seu deck")
-        #identifica o campo "Deck" que corresponde aos decks já criados
-        self.browser.find_element(By.XPATH, "/html/body/div/nav/div/div[2]/ul[1]/li[2]/a").click()
-        self.browser.send_keys(name_deck)
 
     def read_cards_sheet(self):
         """
