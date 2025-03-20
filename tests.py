@@ -1,13 +1,17 @@
+import requests
 from selenium import webdriver
 from src.models.functions import ANKI
 import time
 
+selector =input("Digite a opção que gostaria de Executar.\n (1) Criar um novo Deck \n (2) Adicionar Cards \n (3) Criar um Novo Deck e Adicionar Cards ")
+
 def main():
     # Definições iniciais
-    usuario = "dirt156@gmail.com"
-    senha = "Mari745/*"
+    print("Bem vindos ao RoboAnki!")
+    usuario = input("Digite seu email: ")
+    senha = input("Digite sua senha: ")
     data_locator = r"Data/cards.xlsx"
-    deck_name = "Língua Potuguesa - SUSEP"  # Nome do deck a ser criado
+    deck_name = input("Digite o nome do deck a ser criado")  # Nome do deck a ser criado
 
     # Instancia o driver e a classe ANKI
     driver = webdriver.Chrome()

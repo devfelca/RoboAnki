@@ -2,8 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd
 import time
 
@@ -14,7 +12,6 @@ class ANKI:
         self.usuario = usuario
         self.senha = senha
         self.data_locator = data_locator
-        
 
     def login(self):
         # Abre a URL de login
@@ -50,9 +47,6 @@ class ANKI:
         time.sleep(2)
         # Clica em "OK" para confirmar
         prompt.accept()
-        # chama o click deck
-        self.click_deck(deck_name)
-        time.sleep(3)
 
     def click_deck(self, deck_name):
         """Localiza a div correspondente ao deck pelo texto e clica no botão associado."""
@@ -71,17 +65,21 @@ class ANKI:
         except:
             # Se der ElementNotInteractableException, força o clique via JS
             self.browser.execute_script("arguments[0].click();", button)
-            time.sleep(3)  # Aguarda a página responder
         
     def add_card(self):
         # Clica no link "Add Card"
         self.browser.find_element(By.XPATH, "/html/body/div/nav/div/div[2]/ul[1]/li[2]/a").click()
-        time.sleep(3)
 
     def add_button(self):
         #botão css dentro da página de afionar cards, usado após preencher os dados sobre os cards.
         self.browser.find_element(By.CSS_SELECTOR, "button.btn.btn-primary.btn-large.mt-2").click()
-        time.sleep(3)
+
+    def select_deck(self, deck_name):
+        #na aba de adionar card, a função serve para digitar o nome do deck
+        deck_input = self.browser.find_element(By.CSS_SELECTOR, "input.svelte-82qwg8").click()
+        deck_input.sendkeys(deck_name)
+
+
 
     def send_cards(self, front, back, tag):
         """Localiza os campos de entrada para o card apenas usar caso o robô opere através do add_card pois essa
@@ -98,7 +96,6 @@ class ANKI:
         
         # Chama o botão na na aba de adionar cards
         self.add_button()
-        time.sleep(3)
 
     def select_deck(self, name_deck):
         """
@@ -141,4 +138,3 @@ class ANKI:
             time.sleep(2)
             self.send_cards(front, back, tag)
             print(f"Card adicionado: Front = {front}, Back = {back}, Tag = {tag}")
-            time.sleep(2)
