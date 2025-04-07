@@ -2,24 +2,6 @@
 
 RoboAnki é um projeto de automação que utiliza o [Selenium](https://www.selenium.dev/) para interagir com o [AnkiWeb](https://ankiweb.net/). O objetivo do projeto é automatizar tarefas como login, criação de decks e adição de cards, lendo dados de uma planilha (Excel ou CSV) para quem deseja editar seus flashcards de forma mais rápida.
 
----
-
-## Estrutura do Projeto
----
-RoboAnki/ 
-├── .venv/ 
-├── .vscode/ 
-│ ├── launch.json │ 
-  ├── settings.json │
-  └── tasks.json 
-├── Data/
-│ └── cards.xlsx 
-├── src/ │ 
-├── models/ │ 
-│ ├── init.py 
-│ 
-│ └── functions.py ├── tests.py ├── README.md └── setup.bat
----
 
 - **Data/**: Contém arquivos de dados (por exemplo, `cards.xlsx` com as colunas `Front`, `Back` e `Tag`).  
 - **src/models/**: Onde reside a lógica principal, como o arquivo `functions.py` com as classes e métodos para automação.  
